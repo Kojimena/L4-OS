@@ -17,17 +17,16 @@ int is_safe();
 void print_status();
 
 void initialize() {
-    // Inicializar allocate, maximum, need y available
     for(int i = 0; i < P; i++) {
         for(int j = 0; j < R; j++) {
             allocate[i][j] = 0;
-            maximum[i][j] = 3; // Supongamos que cada proceso puede solicitar hasta 3 unidades de cada recurso
+            maximum[i][j] = 3; // Cada proceso puede solicitar hasta 3 unidades de cada recurso
             need[i][j] = maximum[i][j];
         }
     }
 
     for(int i = 0; i < R; i++) {
-        available[i] = 10; // Supongamos que hay 10 unidades de cada recurso disponibles inicialmente
+        available[i] = 10; // Hay 10 unidades de cada recurso disponibles inicialmente
     }
 }
 
@@ -53,7 +52,7 @@ int request_resources(int process_id, int request[]) {
     }
 
     if(!is_safe()) {
-        // Si el sistema no está en un estado seguro, revertir la asignación de recursos
+        // Si el sistema no está en un estado seguro, se revierte la asignación de recursos
         for(int i = 0; i < R; i++) {
             allocate[process_id][i] -= request[i];
             available[i] += request[i];
@@ -135,7 +134,57 @@ void print_status() {
     }
 }
 
+int main() {
+    initialize();
 
+    printf("Estado inicial:\n");
+    print_status();
+
+    // Simulaciones
+    int request1[] = {0, 2, 0};
+    printf("\nProceso 0 solicitando recursos: [0, 2, 0]\n");
+    if(request_resources(0, request1) == 0) {
+        printf("Solicitud aprobada.\n");
+    } else {
+        printf("Solicitud denegada.\n");
+    }
+
+
+    printf("Estado después de la solicitud del Proceso 0:\n");
+    print_status();
+
+    int release1[] = {0, 2, 0};
+    printf("\nProceso 0 liberando recursos: [0, 2, 0]\n");
+    if(release_resources(0, release1) == 0) {
+        printf("Recursos liberados.\n");
+    } else {
+        printf("Error al liberar recursos.\n");
+    }
+
+    printf("Estado después de la liberación:\n");
+    print_status();
+
+    int request2[] = {1, 0, 3};
+    printf("\nProceso 1 solicitando recursos: [1, 0, 3]\n");
+    if(request_resources(1, request2) == 0) {
+        printf("Solicitud aprobada.\n");
+    } else {
+        printf("Solicitud denegada.\n");
+    }
+
+    int request3[] = {1, 0, 0};
+    printf("\nProceso 2 solicitando recursos: [1, 0, 0]\n");
+    if(request_resources(2, request3) == 0) {
+        printf("Solicitud aprobada.\n");
+    } else {
+        printf("Solicitud denegada.\n");
+    }
+
+    printf("Estado después de todas las solicitudes:\n");
+    print_status();
+
+    return 0;
+}
 
 
 
