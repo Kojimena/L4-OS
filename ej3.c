@@ -1,3 +1,5 @@
+//Jimena Hernández 21199
+
 #include <stdio.h>
 
 #define P 5 // número de procesos
@@ -110,6 +112,7 @@ int is_safe() {
 }
 
 void print_status() {
+    //Funcion para imprimir el estado del sistema
     printf("Proceso\t\tAsignado\tMáximo\t\tNecesario\tDisponible\n");
     for(int i = 0; i < P; i++) {
         printf("P%d\t\t", i);
